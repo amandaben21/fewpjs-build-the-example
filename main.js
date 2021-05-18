@@ -4,7 +4,36 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.querySelector('#modal').className = "hidden"
+  const hearts = document.getElementsByClassName("like-glyph")
+  likePost(hearts);
+})
 
+const likePost = (hearts) => {
+  for (const heart of hearts) {
+    heart.addEventListener("click", (e) => {
+      mimicServerCall() // return a promise. Promises have the .then()
+      .then( () => {
+        if (heart.innerHTML == EMPTY_HEART) {
+          heart.innerHTML = FULL_HEART
+          heart.className = "activated-heart"
+        } else {
+          heart.innerHTML = EMPTY_HEART
+          heart.className = "like-glyph"
+        }
+      })
+      .catch(error => {
+        modal.hidden = false
+        const modalMessage = document.querySelector("#model-message")
+        modalMessage.innerText = error
+        setTimeout(() => {
+          modal.hidden = true
+        }, 5000)
+      })
+    })
+  }
+}
 
 
 //------------------------------------------------------------------------------
