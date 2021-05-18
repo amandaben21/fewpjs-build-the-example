@@ -29,7 +29,7 @@ const likePost = (hearts) => {
         modalMessage.innerText = error
         setTimeout(() => {
           modal.hidden = true
-        }, 5000)
+        }, 3000)
       })
     })
   }
