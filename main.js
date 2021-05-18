@@ -3,37 +3,46 @@ const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
+let modal = document.querySelector("#modal")
+modal.setAttribute("class", "hidden")
 
-document.addEventListener("DOMContentLoaded", () => {
-  const modal = document.querySelector('#modal').className = "hidden"
-  const hearts = document.getElementsByClassName("like-glyph")
-  likePost(hearts);
+
+
+let likes = document.querySelectorAll("span.like-glyph")
+likes.forEach(like => {
+  like.addEventListener("click", function() {
+    if(like.innerHTML === `${FULL_HEART}`) {
+      
+      fullHeart(like)
+    } else {
+      
+      mimicServerCall()
+      .then(() => {
+       emptyHeart(like)
+      })
+      
+      .catch((error) => {
+        modal.removeAttribute("class", "hidden")
+        modal.innerHTML = error
+        setTimeout(function() {
+          modal.setAttribute("class", "hidden")
+        }, 5000)
+      })
+    }
+  })
 })
 
-const likePost = (hearts) => {
-  for (const heart of hearts) {
-    heart.addEventListener("click", (e) => {
-      mimicServerCall() // return a promise. Promises have the .then()
-      .then( () => {
-        if (heart.innerHTML == EMPTY_HEART) {
-          heart.innerHTML = FULL_HEART
-          heart.className = "activated-heart"
-        } else {
-          heart.innerHTML = EMPTY_HEART
-          heart.className = "like-glyph"
-        }
-      })
-      .catch(error => {
-        modal.hidden = false
-        const modalMessage = document.querySelector("#model-message")
-        modalMessage.innerText = error
-        setTimeout(() => {
-          modal.hidden = true
-        }, 3000)
-      })
-    })
-  }
+function emptyHeart(like) {
+  like.innerHTML = `${FULL_HEART}`
+  // like.className = "activated-heart"
+  like.setAttribute("class", "activated-heart")
 }
+
+function fullHeart(like) {
+  like.innerHTML = `${EMPTY_HEART}`
+  like.classList.remove("activated-heart")
+}
+
 
 
 //------------------------------------------------------------------------------
