@@ -4,7 +4,7 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 let modal = document.querySelector("#modal")
-modal.setAttribute("class", "hidden")
+modal.setAttribute("class", "hidden")     //setAttribute(name, value)
 
 
 
